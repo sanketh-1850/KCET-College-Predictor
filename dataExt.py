@@ -16,7 +16,7 @@ def quota_lst(diction):
         lst.append(i)
     for i in range(4):
         lst.pop(0)
-    lst.insert(0,"      --Select-Quota--")
+    lst.insert(0,"--Select-Quota--")
     return lst
 
 def branch_lst(diction):
@@ -25,5 +25,6 @@ def branch_lst(diction):
         lst.append(i)
     lst=set(lst)
     lst=list(lst)
-    lst.insert(0,"      --Select-Branch--")
+    lst.sort()
+    lst.insert(0,"--Select-Branch--")
     return lst
