@@ -39,10 +39,10 @@ rankVar=tk.StringVar()
 
 
 #creating rank form elements
-rankLabel=tk.Label(rank, text="Enter your Rank:     ", font=("Times New Roman", 20), fg="white", bg="black")
+rankLabel=tk.Label(rank, text="Enter your Rank:           ", font=("Times New Roman", 20), fg="white", bg="black")
 rankEntry=tk.Entry(rank, textvariable=rankVar, font=("Times New Roman", 20))
 
-quotaLabel=tk.Label(quota, text="Choose your Quota:     ", font=("Times New Roman", 20), fg="white", bg="black")
+quotaLabel=tk.Label(quota, text="Choose your Quota:       ", font=("Times New Roman", 20), fg="white", bg="black")
 quotaEntry=ttk.Combobox(quota, value=quota_lst(diction))
 quotaEntry.current(0)
 
