@@ -33,7 +33,7 @@ style.master.option_add( '*TCombobox*Listbox.background', '#FFE6C7')
 
 #creating the form frames
 form=tk.Frame(root, relief="sunken", bg="#454545")
-form.pack(expand= False, padx=20, pady=100)
+form.pack(expand= False, padx=20, pady=200)
 
 rank=tk.Frame(form,relief="sunken", bg="#454545")
 rank.pack(fill=tk.BOTH, expand= True, pady=20, padx=20)
@@ -56,11 +56,11 @@ rankVar=tk.StringVar()
 rankLabel=tk.Label(rank, text="Enter your Rank:           ", font=("Times New Roman", 20), fg="#FFE6C7", bg="#454545")
 rankEntry=tk.Entry(rank, textvariable=rankVar, font=("Times New Roman", 20), relief="sunken", highlightbackground="#FF6000", highlightthickness=2, background="#FFE6C7")
 
-quotaLabel=tk.Label(quota, text="Select Quota:                 ", font=("Times New Roman", 20), fg="#FFE6C7", bg="#454545")
+quotaLabel=tk.Label(quota, text="Select Category:                 ", font=("Times New Roman", 20), fg="#FFE6C7", bg="#454545")
 quotaEntry=ttk.Combobox(quota, value=quota_lst(diction), justify="center")
 quotaEntry.current(0)
 
-branchLabel=tk.Label(branch, text="Select Branch:               ", font=("Times New Roman", 20), fg="#FFE6C7", bg="#454545")
+branchLabel=tk.Label(branch, text="Select Branches:               ", font=("Times New Roman", 20), fg="#FFE6C7", bg="#454545")
 branchEntry=ttk.Combobox(branch, value=branch_lst(diction), justify="center")
 branchEntry.current(0)
 

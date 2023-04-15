@@ -10,6 +10,7 @@ def dataExtract(lst):
             if not pd.isna(j):
                 lst[i].append(j)
 
+
 def quota_lst(diction):
     lst=[]
     for i in diction.keys():
@@ -18,6 +19,7 @@ def quota_lst(diction):
         lst.pop(0)
     lst.insert(0,"--Select-Quota--")
     return lst
+
 
 def branch_lst(diction):
     lst=[]
