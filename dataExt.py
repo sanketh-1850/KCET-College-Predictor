@@ -28,5 +28,4 @@ def branch_lst(diction):
     lst=set(lst)
     lst=list(lst)
     lst.sort()
-    lst.insert(0,"--Select-Branch--")
     return lst

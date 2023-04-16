@@ -5,6 +5,43 @@ from PIL import ImageTk, Image
 
 
 
+#listbox functions
+selected=[]
+def update(data):
+    global selected
+    for i in branchChoice.curselection():
+        if branchChoice.get(i) not in selected:
+            selected.append(branchChoice.get(i))
+    
+    
+    branchChoice.delete(0,tk.END)
+    i=0
+    for item in data:
+        branchChoice.insert(tk.END, item)
+        if item in selected:
+            branchChoice.select_set(i)
+        i+=1
+
+def check(event):
+    typed = branchEntry.get()
+    #print(typed)
+
+    if typed == '':
+        data = branchLst
+    else:
+        data = []
+        for item in branchLst:
+            if typed.lower() in item.lower():
+                data.append(item)
+    update(data)
+
+def removal(event):
+    temp=branchChoice.get(tk.ACTIVE)
+    if temp in selected:
+        selected.remove(temp)
+
+
+
 #Extracting data from the csv file
 diction={}
 dataExtract(diction)
@@ -43,6 +80,7 @@ quota.pack(fill=tk.BOTH, expand= True, pady=20, padx=20)
 
 branch=tk.Frame(form,relief="sunken", bg="#454545")
 branch.pack(fill=tk.BOTH, expand= True, pady=20, padx=20)
+branchListbox=tk.Frame(branch,relief="sunken", bg="#454545")
 
 
 
@@ -56,13 +94,22 @@ rankVar=tk.StringVar()
 rankLabel=tk.Label(rank, text="Enter your Rank:           ", font=("Times New Roman", 20), fg="#FFE6C7", bg="#454545")
 rankEntry=tk.Entry(rank, textvariable=rankVar, font=("Times New Roman", 20), relief="sunken", highlightbackground="#FF6000", highlightthickness=2, background="#FFE6C7")
 
+quotaLst=quota_lst(diction)
 quotaLabel=tk.Label(quota, text="Select Category:                 ", font=("Times New Roman", 20), fg="#FFE6C7", bg="#454545")
-quotaEntry=ttk.Combobox(quota, value=quota_lst(diction), justify="center")
+quotaEntry=ttk.Combobox(quota, value=quotaLst, justify="center")
 quotaEntry.current(0)
 
 branchLabel=tk.Label(branch, text="Select Branches:               ", font=("Times New Roman", 20), fg="#FFE6C7", bg="#454545")
-branchEntry=ttk.Combobox(branch, value=branch_lst(diction), justify="center")
-branchEntry.current(0)
+branchEntry=tk.Entry(branchListbox, font=("Times New Roman", 20), width=10, relief="sunken", highlightbackground="#FF6000", highlightthickness=1, background="#FFE6C7")
+branchEntry.pack()
+branchChoice=tk.Listbox(branchListbox, width=23, relief="sunken", highlightbackground="#FF6000", highlightthickness=1, background="#FFE6C7", selectbackground="#FF6000", selectmode=tk.MULTIPLE)
+branchChoice.pack()
+branchLst=branch_lst(diction)
+
+branchChoice.bind("<<ListboxSelect>>", removal)
+branchEntry.bind("<KeyRelease>", check)
+update(branchLst)
+
 
 
 
@@ -75,7 +122,7 @@ quotaLabel.pack(side=tk.LEFT)
 quotaEntry.pack(side=tk.LEFT)
 
 branchLabel.pack(side=tk.LEFT)
-branchEntry.pack(side=tk.LEFT)
+branchListbox.pack(side=tk.LEFT)
 
 
 
