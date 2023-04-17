@@ -84,7 +84,8 @@ quota.pack(fill=tk.BOTH, expand= True, pady=20, padx=20)
 
 branch=tk.Frame(form,relief="sunken", bg="#454545")
 branch.pack(fill=tk.BOTH, expand= True, pady=20, padx=20)
-branchListbox=tk.Frame(branch,relief="sunken", bg="#454545")
+branchframe=tk.Frame(branch,relief="sunken", bg="#454545")
+branchlistbox=tk.Frame(branchframe,relief="sunken", bg="#454545")
 
 
 
@@ -104,9 +105,12 @@ quotaEntry=ttk.Combobox(quota, value=quotaLst, justify="center")
 quotaEntry.current(0)
 
 branchLabel=tk.Label(branch, text="Select Branches:               ", font=("Times New Roman", 20), fg="#FFE6C7", bg="#454545")
-branchEntry=tk.Entry(branchListbox, font=("Times New Roman", 20), width=10, relief="sunken", highlightbackground="#FF6000", highlightthickness=1, background="#FFE6C7")
+branchEntry=tk.Entry(branchframe, font=("Times New Roman", 20), width=11, relief="sunken", highlightbackground="#FF6000", highlightthickness=1, background="#FFE6C7")
 branchEntry.pack()
-branchChoice=tk.Listbox(branchListbox, width=23, relief="sunken", highlightbackground="#FF6000", highlightthickness=1, background="#FFE6C7", selectbackground="#FF6000", selectmode=tk.MULTIPLE)
+scrollbar=tk.Scrollbar(branchlistbox, orient=tk.VERTICAL)
+branchChoice=tk.Listbox(branchlistbox, width=23, relief="sunken", highlightbackground="#FF6000", highlightthickness=1, background="#FFE6C7", selectbackground="#FF6000", selectmode=tk.MULTIPLE, height=8, yscrollcommand=scrollbar.set)
+scrollbar.config(command=branchChoice.yview)
+scrollbar.pack(side=tk.RIGHT, fill=tk.Y)
 branchChoice.pack()
 branchLst=branch_lst(diction)
 
@@ -127,7 +131,8 @@ quotaLabel.pack(side=tk.LEFT)
 quotaEntry.pack(side=tk.LEFT)
 
 branchLabel.pack(side=tk.LEFT)
-branchListbox.pack(side=tk.LEFT)
+branchframe.pack(side=tk.LEFT)
+branchlistbox.pack()
 
 
 
