@@ -28,8 +28,7 @@ def check(event):
         if branchChoice.get(i) not in selected:
             selected.append(branchChoice.get(i))
 
-    for i in data:
-        print(i in selected, i not in temp) 
+    for i in data: 
         if (i in selected) and (i not in temp):
             selected.remove(i)
 
