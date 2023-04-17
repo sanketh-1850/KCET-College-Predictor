@@ -6,16 +6,10 @@ from PIL import ImageTk, Image
 
 
 #listbox functions
-selected=[]
 def update(data):
-    global selected
-    for i in branchChoice.curselection():
-        if branchChoice.get(i) not in selected:
-            selected.append(branchChoice.get(i))
-    
-    
     branchChoice.delete(0,tk.END)
     i=0
+    #printing the listbox
     for item in data:
         branchChoice.insert(tk.END, item)
         if item in selected:
@@ -23,9 +17,23 @@ def update(data):
         i+=1
 
 def check(event):
+    global data
+    global selected
     typed = branchEntry.get()
-    #print(typed)
+    
+    #updating the lisbox in each search
+    temp=[]
+    for i in branchChoice.curselection():
+        temp.append(branchChoice.get(i))
+        if branchChoice.get(i) not in selected:
+            selected.append(branchChoice.get(i))
 
+    for i in data:
+        print(i in selected, i not in temp) 
+        if (i in selected) and (i not in temp):
+            selected.remove(i)
+
+    #updating data
     if typed == '':
         data = branchLst
     else:
@@ -33,12 +41,9 @@ def check(event):
         for item in branchLst:
             if typed.lower() in item.lower():
                 data.append(item)
+    
     update(data)
 
-def removal(event):
-    temp=branchChoice.get(tk.ACTIVE)
-    if temp in selected:
-        selected.remove(temp)
 
 
 
@@ -106,7 +111,8 @@ branchChoice=tk.Listbox(branchListbox, width=23, relief="sunken", highlightbackg
 branchChoice.pack()
 branchLst=branch_lst(diction)
 
-branchChoice.bind("<<ListboxSelect>>", removal)
+selected=[]     #global variables for branch selection
+data=[]
 branchEntry.bind("<KeyRelease>", check)
 update(branchLst)
 
