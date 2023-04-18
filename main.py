@@ -5,43 +5,50 @@ from PIL import ImageTk, Image
 
 
 
+
 #listbox functions
-def update(data):
+
+#branch listbox
+selectedBranch=[]     #global variables for branch selection
+dataBranch=[]
+def updateBranch(dataBranch):
     branchChoice.delete(0,tk.END)
     i=0
     #printing the listbox
-    for item in data:
+    for item in dataBranch:
         branchChoice.insert(tk.END, item)
-        if item in selected:
+        if item in selectedBranch:
             branchChoice.select_set(i)
         i+=1
 
-def check(event):
-    global data
-    global selected
+def checkBranch(event):
+    global dataBranch
+    global selectedBranch
     typed = branchEntry.get()
     
     #updating the lisbox in each search
     temp=[]
     for i in branchChoice.curselection():
         temp.append(branchChoice.get(i))
-        if branchChoice.get(i) not in selected:
-            selected.append(branchChoice.get(i))
+        if branchChoice.get(i) not in selectedBranch:
+            selectedBranch.append(branchChoice.get(i))
 
-    for i in data: 
-        if (i in selected) and (i not in temp):
-            selected.remove(i)
+    for i in dataBranch: 
+        if (i in selectedBranch) and (i not in temp):
+            selectedBranch.remove(i)
 
-    #updating data
+    #updating dataBranch
     if typed == '':
-        data = branchLst
+        dataBranch = branchLst
     else:
-        data = []
+        dataBranch = []
         for item in branchLst:
             if typed.lower() in item.lower():
-                data.append(item)
+                dataBranch.append(item)
     
-    update(data)
+    updateBranch(dataBranch)
+
+
 
 
 
@@ -114,10 +121,9 @@ scrollbar.pack(side=tk.RIGHT, fill=tk.Y)
 branchChoice.pack()
 branchLst=branch_lst(diction)
 
-selected=[]     #global variables for branch selection
-data=[]
-branchEntry.bind("<KeyRelease>", check)
-update(branchLst)
+
+branchEntry.bind("<KeyRelease>", checkBranch)
+updateBranch(branchLst)
 
 
 
