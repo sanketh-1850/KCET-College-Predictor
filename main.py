@@ -51,6 +51,49 @@ def checkBranch(event):
 
 
 
+#location listbox
+selectedlocation=[]     #global variables for location selection
+datalocation=[]
+def updatelocation(datalocation):
+    locationChoice.delete(0,tk.END)
+    i=0
+    #printing the listbox
+    for item in datalocation:
+        locationChoice.insert(tk.END, item)
+        if item in selectedlocation:
+            locationChoice.select_set(i)
+        i+=1
+
+def checklocation(event):
+    global datalocation
+    global selectedlocation
+    typed = locationEntry.get()
+    
+    #updating the lisbox in each search
+    temp=[]
+    for i in locationChoice.curselection():
+        temp.append(locationChoice.get(i))
+        if locationChoice.get(i) not in selectedlocation:
+            selectedlocation.append(locationChoice.get(i))
+
+    for i in datalocation: 
+        if (i in selectedlocation) and (i not in temp):
+            selectedlocation.remove(i)
+
+    #updating datalocation
+    if typed == '':
+        datalocation = locationLst
+    else:
+        datalocation = []
+        for item in locationLst:
+            if typed.lower() in item.lower():
+                datalocation.append(item)
+    
+    updatelocation(datalocation)
+
+
+
+
 
 
 #Extracting data from the csv file
@@ -94,6 +137,11 @@ branch.pack(fill=tk.BOTH, expand= True, pady=20, padx=20)
 branchframe=tk.Frame(branch,relief="sunken", bg="#454545")
 branchlistbox=tk.Frame(branchframe,relief="sunken", bg="#454545")
 
+location=tk.Frame(form,relief="sunken", bg="#454545")
+location.pack(fill=tk.BOTH, expand= True, pady=20, padx=20)
+locationframe=tk.Frame(location,relief="sunken", bg="#454545")
+locationlistbox=tk.Frame(locationframe,relief="sunken", bg="#454545")
+
 
 
 #Initialising to string variable
@@ -111,7 +159,7 @@ quotaLabel=tk.Label(quota, text="Select Category:                 ", font=("Time
 quotaEntry=ttk.Combobox(quota, value=quotaLst, justify="center")
 quotaEntry.current(0)
 
-branchLabel=tk.Label(branch, text="Select Branches:               ", font=("Times New Roman", 20), fg="#FFE6C7", bg="#454545")
+branchLabel=tk.Label(branch, text="Select Preferred Branches:               ", font=("Times New Roman", 20), fg="#FFE6C7", bg="#454545")
 branchEntry=tk.Entry(branchframe, font=("Times New Roman", 20), width=11, relief="sunken", highlightbackground="#FF6000", highlightthickness=1, background="#FFE6C7")
 branchEntry.pack()
 scrollbar=tk.Scrollbar(branchlistbox, orient=tk.VERTICAL)
@@ -121,9 +169,22 @@ scrollbar.pack(side=tk.RIGHT, fill=tk.Y)
 branchChoice.pack()
 branchLst=branch_lst(diction)
 
-
 branchEntry.bind("<KeyRelease>", checkBranch)
 updateBranch(branchLst)
+
+
+locationLabel=tk.Label(location, text="Select Preferred Locations:               ", font=("Times New Roman", 20), fg="#FFE6C7", bg="#454545")
+locationEntry=tk.Entry(locationframe, font=("Times New Roman", 20), width=11, relief="sunken", highlightbackground="#FF6000", highlightthickness=1, background="#FFE6C7")
+locationEntry.pack()
+scrollbar=tk.Scrollbar(locationlistbox, orient=tk.VERTICAL)
+locationChoice=tk.Listbox(locationlistbox, width=23, relief="sunken", highlightbackground="#FF6000", highlightthickness=1, background="#FFE6C7", selectbackground="#FF6000", selectmode=tk.MULTIPLE, height=8, yscrollcommand=scrollbar.set)
+scrollbar.config(command=locationChoice.yview)
+scrollbar.pack(side=tk.RIGHT, fill=tk.Y)
+locationChoice.pack()
+locationLst=location_lst(diction)
+
+locationEntry.bind("<KeyRelease>", checklocation)
+updatelocation(locationLst)
 
 
 
@@ -139,6 +200,10 @@ quotaEntry.pack(side=tk.LEFT)
 branchLabel.pack(side=tk.LEFT)
 branchframe.pack(side=tk.LEFT)
 branchlistbox.pack()
+
+locationLabel.pack(side=tk.LEFT)
+locationframe.pack(side=tk.LEFT)
+locationlistbox.pack()
 
 
 

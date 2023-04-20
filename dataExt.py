@@ -2,7 +2,7 @@ import pandas as pd
 from tkinter import messagebox
 
 def dataExtract(lst):
-    data=pd.read_csv("CET_Database_Final2020.csv")
+    data=pd.read_csv("data.csv")
     diction=data.to_dict()
     for i in diction.keys():
         lst[i]=[]
@@ -25,6 +25,17 @@ def branch_lst(diction):
     lst=[]
     for i in diction["Branch"]:
         lst.append(i)
+    lst=set(lst)
+    lst=list(lst)
+    lst.sort()
+    return lst
+
+
+def location_lst(diction):
+    lst=[]
+    for i in diction["Location"]:
+        temp=i.split(",")
+        lst.append(temp[len(temp)-1].lstrip())
     lst=set(lst)
     lst=list(lst)
     lst.sort()
