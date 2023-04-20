@@ -94,6 +94,49 @@ def checklocation(event):
 
 
 
+#college listbox
+selectedcollege=[]     #global variables for college selection
+datacollege=[]
+def updatecollege(datacollege):
+    collegeChoice.delete(0,tk.END)
+    i=0
+    #printing the listbox
+    for item in datacollege:
+        collegeChoice.insert(tk.END, item)
+        if item in selectedcollege:
+            collegeChoice.select_set(i)
+        i+=1
+
+def checkcollege(event):
+    global datacollege
+    global selectedcollege
+    typed = collegeEntry.get()
+    
+    #updating the lisbox in each search
+    temp=[]
+    for i in collegeChoice.curselection():
+        temp.append(collegeChoice.get(i))
+        if collegeChoice.get(i) not in selectedcollege:
+            selectedcollege.append(collegeChoice.get(i))
+
+    for i in datacollege: 
+        if (i in selectedcollege) and (i not in temp):
+            selectedcollege.remove(i)
+
+    #updating datacollege
+    if typed == '':
+        datacollege = collegeLst
+    else:
+        datacollege = []
+        for item in collegeLst:
+            if typed.lower() in item.lower():
+                datacollege.append(item)
+    
+    updatecollege(datacollege)
+
+
+
+
 
 
 #Extracting data from the csv file
@@ -124,7 +167,7 @@ style.master.option_add( '*TCombobox*Listbox.background', '#FFE6C7')
 
 #creating the form frames
 form=tk.Frame(root, relief="sunken", bg="#454545")
-form.pack(expand= False, padx=20, pady=200)
+form.pack(expand= False, padx=20, pady=80)
 
 rank=tk.Frame(form,relief="sunken", bg="#454545")
 rank.pack(fill=tk.BOTH, expand= True, pady=20, padx=20)
@@ -141,6 +184,11 @@ location=tk.Frame(form,relief="sunken", bg="#454545")
 location.pack(fill=tk.BOTH, expand= True, pady=20, padx=20)
 locationframe=tk.Frame(location,relief="sunken", bg="#454545")
 locationlistbox=tk.Frame(locationframe,relief="sunken", bg="#454545")
+
+college=tk.Frame(form,relief="sunken", bg="#454545")
+college.pack(fill=tk.BOTH, expand= True, pady=20, padx=20)
+collegeframe=tk.Frame(college,relief="sunken", bg="#454545")
+collegelistbox=tk.Frame(collegeframe,relief="sunken", bg="#454545")
 
 
 
@@ -189,6 +237,22 @@ updatelocation(locationLst)
 
 
 
+collegeLabel=tk.Label(college, text="Select Preferred colleges:               ", font=("Times New Roman", 20), fg="#FFE6C7", bg="#454545")
+collegeEntry=tk.Entry(collegeframe, font=("Times New Roman", 20), width=11, relief="sunken", highlightbackground="#FF6000", highlightthickness=1, background="#FFE6C7")
+collegeEntry.pack()
+scrollbar=tk.Scrollbar(collegelistbox, orient=tk.VERTICAL)
+collegeChoice=tk.Listbox(collegelistbox, width=23, relief="sunken", highlightbackground="#FF6000", highlightthickness=1, background="#FFE6C7", selectbackground="#FF6000", selectmode=tk.MULTIPLE, height=8, yscrollcommand=scrollbar.set)
+scrollbar.config(command=collegeChoice.yview)
+scrollbar.pack(side=tk.RIGHT, fill=tk.Y)
+collegeChoice.pack()
+collegeLst=college_lst(diction)
+
+collegeEntry.bind("<KeyRelease>", checkcollege)
+updatecollege(collegeLst)
+
+
+
+
 
 #placing the form elements
 rankLabel.pack(side=tk.LEFT)
@@ -204,6 +268,10 @@ branchlistbox.pack()
 locationLabel.pack(side=tk.LEFT)
 locationframe.pack(side=tk.LEFT)
 locationlistbox.pack()
+
+collegeLabel.pack(side=tk.LEFT)
+collegeframe.pack(side=tk.LEFT)
+collegelistbox.pack()
 
 
 

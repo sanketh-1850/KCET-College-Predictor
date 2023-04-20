@@ -40,3 +40,13 @@ def location_lst(diction):
     lst=list(lst)
     lst.sort()
     return lst
+
+
+def college_lst(diction):
+    lst=[]
+    for i in diction["College"]:
+        lst.append(i)
+    lst=set(lst)
+    lst=list(lst)
+    lst.sort()
+    return lst
