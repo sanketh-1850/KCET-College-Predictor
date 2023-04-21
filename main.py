@@ -238,15 +238,15 @@ btnimg = ImageTk.PhotoImage(Image.open("btn.png"))
 
 
 #creating rank form elements
-rankLabel=tk.Label(rank, text="Enter your Rank:           ", font=("Times New Roman", 20), fg="#FFE6C7", bg="#454545")
+rankLabel=tk.Label(rank, text="Enter your Rank:           ", font=("Ubuntu", 18), fg="#FFE6C7", bg="#454545")
 rankEntry=tk.Entry(rank, textvariable=rankVar, font=("Times New Roman", 20), relief="sunken", highlightbackground="#FF6000", highlightthickness=2, background="#FFE6C7")
 
 quotaLst=quota_lst(diction)
-quotaLabel=tk.Label(quota, text="Select Category:                               ", font=("Times New Roman", 20), fg="#FFE6C7", bg="#454545")
+quotaLabel=tk.Label(quota, text="Select Category:                               ", font=("Ubuntu", 18), fg="#FFE6C7", bg="#454545")
 quotaEntry=ttk.Combobox(quota, value=quotaLst,width=29, height=15, justify="center")
 quotaEntry.current(0)
 
-branchLabel=tk.Label(branch, text="Select Preferred Branches:                ", font=("Times New Roman", 20), fg="#FFE6C7", bg="#454545")
+branchLabel=tk.Label(branch, text="Select Preferred Branches:                ", font=("Ubuntu", 18), fg="#FFE6C7", bg="#454545")
 branchEntry=tk.Entry(branchdropdown, font=("Times New Roman", 15), width=17, relief="sunken", highlightbackground="#FF6000", highlightthickness=1, background="#FFE6C7")
 branchEntry.pack(side=tk.LEFT)
 scrollbar=tk.Scrollbar(branchlistbox, orient=tk.VERTICAL)
@@ -262,7 +262,7 @@ branchEntry.bind("<KeyRelease>", checkBranch)
 updateBranch(branchLst)
 
 
-locationLabel=tk.Label(location, text="Select Preferred Locations:               ", font=("Times New Roman", 20), fg="#FFE6C7", bg="#454545")
+locationLabel=tk.Label(location, text="Select Preferred Locations:                ", font=("Ubuntu", 18), fg="#FFE6C7", bg="#454545")
 locationEntry=tk.Entry(locationdropdown, font=("Times New Roman", 15), width=17, relief="sunken", highlightbackground="#FF6000", highlightthickness=1, background="#FFE6C7")
 locationEntry.pack(side=tk.LEFT)
 scrollbar=tk.Scrollbar(locationlistbox, orient=tk.VERTICAL)
@@ -280,14 +280,17 @@ updatelocation(locationLst)
 
 
 
-collegeLabel=tk.Label(college, text="Select Preferred Colleges:                 ", font=("Times New Roman", 20), fg="#FFE6C7", bg="#454545")
+collegeLabel=tk.Label(college, text="Select Preferred Colleges:                 ", font=("Ubuntu", 18), fg="#FFE6C7", bg="#454545")
 collegeEntry=tk.Entry(collegedropdown, font=("Times New Roman", 15), width=17, relief="sunken", highlightbackground="#FF6000", highlightthickness=1, background="#FFE6C7")
 collegeEntry.pack(side=tk.LEFT)
-scrollbar=tk.Scrollbar(collegelistbox, orient=tk.VERTICAL)
-collegeChoice=tk.Listbox(collegelistbox, width=29, relief="sunken", highlightbackground="#FF6000", highlightthickness=1, background="#FFE6C7", selectbackground="#FF6000", selectmode=tk.MULTIPLE, height=8, yscrollcommand=scrollbar.set)
+scrollbary=tk.Scrollbar(collegelistbox, orient=tk.VERTICAL)
+scrollbarx=tk.Scrollbar(collegelistbox, orient=tk.HORIZONTAL)
+collegeChoice=tk.Listbox(collegelistbox, width=29, relief="sunken", highlightbackground="#FF6000", highlightthickness=1, background="#FFE6C7", selectbackground="#FF6000", selectmode=tk.MULTIPLE, height=8, yscrollcommand=scrollbary.set, xscrollcommand=scrollbarx.set)
 collegeChoice.configure(exportselection=False)
-scrollbar.config(command=collegeChoice.yview)
-scrollbar.pack(side=tk.RIGHT, fill=tk.Y)
+scrollbary.config(command=collegeChoice.yview)
+scrollbarx.config(command=collegeChoice.xview)
+scrollbary.pack(side=tk.RIGHT, fill=tk.Y)
+scrollbarx.pack(side=tk.BOTTOM, fill=tk.X)
 collegeChoice.pack()
 collegeLst=college_lst(diction)
 collegeButton=tk.Button(collegedropdown, width=15, height=20, font=("Times New Roman", 10), image=btnimg, justify="center", bg="#FFA559", command=show_hidecollege)
