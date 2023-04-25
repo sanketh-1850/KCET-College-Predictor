@@ -6,6 +6,17 @@ from PIL import ImageTk, Image
 
 #functions for dropdown
 
+#Quota
+countquota=1
+def show_hidequota():
+    global countquota
+    countquota+=1
+    if countquota%2==0:
+        quotalistbox.pack()
+    elif countquota%2==1:
+        quotalistbox.pack_forget()
+
+
 #branch
 countBranch=1
 def show_hidebranch():
@@ -43,6 +54,52 @@ def show_hidecollege():
 
 
 #listbox functions
+
+#Quota listbox
+def filloutQuota(event):
+    quotaEntry.delete(0, tk.END)
+    for i in quotaChoice.curselection():
+        quotaEntry.insert(0, quotaChoice.get(i))
+
+
+selectedQuota=[]     #global variables for Quota selection
+dataQuota=[]
+def updateQuota(dataQuota):
+    quotaChoice.delete(0,tk.END)
+    i=0
+    #printing the listbox
+    for item in dataQuota:
+        quotaChoice.insert(tk.END, item)
+        if item in selectedQuota:
+            quotaChoice.select_set(i)
+        i+=1
+
+def checkQuota(event):
+    global dataQuota
+    global selectedQuota
+    typed = quotaEntry.get()
+    
+    #updating the lisbox in each search
+    temp=[]
+    for i in quotaChoice.curselection():
+        temp.append(quotaChoice.get(i))
+        if quotaChoice.get(i) not in selectedQuota:
+            if selectedQuota != []:
+                selectedQuota.pop()
+            selectedQuota.append(quotaChoice.get(i))
+
+
+    #updating dataQuota
+    if typed == '':
+        dataQuota = quotaLst
+    else:
+        dataQuota = []
+        for item in quotaLst:
+            if typed.lower() in item.lower():
+                dataQuota.append(item)
+    
+    updateQuota(dataQuota)
+
 
 #branch listbox
 selectedBranch=[]     #global variables for branch selection
@@ -210,6 +267,9 @@ rank.pack(fill=tk.BOTH, expand= True, pady=20, padx=20)
 
 quota=tk.Frame(form,relief="sunken", bg="#393646")
 quota.pack(fill=tk.BOTH, expand= True, pady=20, padx=20)
+quotaframe=tk.Frame(quota,relief="sunken", bg="#393646")
+quotadropdown=tk.Frame(quotaframe,relief="sunken", bg="#393646")
+quotalistbox=tk.Frame(quotaframe,relief="sunken", bg="#393646")
 
 branch=tk.Frame(form,relief="sunken", bg="#393646")
 branch.pack(fill=tk.BOTH, expand= True, pady=20, padx=20)
@@ -238,15 +298,27 @@ btnimg = ImageTk.PhotoImage(Image.open("btn.png"))
 
 
 #creating rank form elements
-rankLabel=tk.Label(rank, text="Enter your Rank*:           ", font=("Ubuntu", 18), fg="#F4EEE0", bg="#393646")
+rankLabel=tk.Label(rank, text="Enter your Rank*:                ", font=("Ubuntu", 18), fg="#F4EEE0", bg="#393646")
 rankEntry=tk.Entry(rank, textvariable=rankVar, font=("Times New Roman", 20), relief="sunken", highlightbackground="#6D5D6E", highlightthickness=2, background="#F4EEE0")
 
-quotaLst=quota_lst(diction)
-quotaLabel=tk.Label(quota, text="Select Category*:                               ", font=("Ubuntu", 18), fg="#F4EEE0", bg="#393646")
-quotaEntry=ttk.Combobox(quota, value=quotaLst,width=29, height=15, justify="center")
-quotaEntry.current(0)
 
-branchLabel=tk.Label(branch, text="Select Preferred Branches*:                ", font=("Ubuntu", 18), fg="#F4EEE0", bg="#393646")
+quotaLabel=tk.Label(quota, text="Select Category*:", font=("Ubuntu", 18), fg="#F4EEE0", bg="#393646")
+quotaEntry=tk.Entry(quotadropdown, font=("Times New Roman", 15), width=17, relief="sunken", highlightbackground="#6D5D6E", highlightthickness=1, background="#F4EEE0")
+quotaEntry.pack(side=tk.LEFT)
+scrollbar=tk.Scrollbar(quotalistbox, orient=tk.VERTICAL)
+quotaChoice=tk.Listbox(quotalistbox, width=29, relief="sunken", highlightbackground="#6D5D6E", highlightthickness=1, background="#F4EEE0", selectbackground="#6D5D6E", height=8, yscrollcommand=scrollbar.set)
+quotaChoice.configure(exportselection=False)
+scrollbar.config(command=quotaChoice.yview)
+scrollbar.pack(side=tk.RIGHT, fill=tk.Y)
+quotaChoice.pack()
+quotaLst=quota_lst(diction)
+quotaButton=tk.Button(quotadropdown, width=15, height=20, font=("Times New Roman", 10), image=btnimg, justify="center", bg="#6D5D6E", command=show_hidequota)
+
+quotaChoice.bind("<<ListboxSelect>>", filloutQuota)
+quotaEntry.bind("<KeyRelease>", checkQuota)
+updateQuota(quotaLst)
+
+branchLabel=tk.Label(branch, text="Select Preferred Branches*:", font=("Ubuntu", 18), fg="#F4EEE0", bg="#393646")
 branchEntry=tk.Entry(branchdropdown, font=("Times New Roman", 15), width=17, relief="sunken", highlightbackground="#6D5D6E", highlightthickness=1, background="#F4EEE0")
 branchEntry.pack(side=tk.LEFT)
 scrollbar=tk.Scrollbar(branchlistbox, orient=tk.VERTICAL)
@@ -262,7 +334,7 @@ branchEntry.bind("<KeyRelease>", checkBranch)
 updateBranch(branchLst)
 
 
-locationLabel=tk.Label(location, text="Select Preferred Locations:                ", font=("Ubuntu", 18), fg="#F4EEE0", bg="#393646")
+locationLabel=tk.Label(location, text="Select Preferred Locations:", font=("Ubuntu", 18), fg="#F4EEE0", bg="#393646")
 locationEntry=tk.Entry(locationdropdown, font=("Times New Roman", 15), width=17, relief="sunken", highlightbackground="#6D5D6E", highlightthickness=1, background="#F4EEE0")
 locationEntry.pack(side=tk.LEFT)
 scrollbar=tk.Scrollbar(locationlistbox, orient=tk.VERTICAL)
@@ -280,7 +352,7 @@ updatelocation(locationLst)
 
 
 
-collegeLabel=tk.Label(college, text="Select Preferred Colleges:                 ", font=("Ubuntu", 18), fg="#F4EEE0", bg="#393646")
+collegeLabel=tk.Label(college, text="Select Preferred Colleges:", font=("Ubuntu", 18), fg="#F4EEE0", bg="#393646")
 collegeEntry=tk.Entry(collegedropdown, font=("Times New Roman", 15), width=17, relief="sunken", highlightbackground="#6D5D6E", highlightthickness=1, background="#F4EEE0")
 collegeEntry.pack(side=tk.LEFT)
 scrollbary=tk.Scrollbar(collegelistbox, orient=tk.VERTICAL)
@@ -304,23 +376,25 @@ updatecollege(collegeLst)
 
 #placing the form elements
 rankLabel.pack(side=tk.LEFT)
-rankEntry.pack(side=tk.LEFT)
+rankEntry.pack(side=tk.RIGHT)
 
-quotaLabel.pack(side=tk.LEFT)
-quotaEntry.pack(side=tk.LEFT)
+quotaLabel.pack(side=tk.LEFT, anchor=tk.NW)
+quotaframe.pack(side=tk.RIGHT, anchor=tk.NE)
+quotadropdown.pack()
+quotaButton.pack(side=tk.LEFT)
 
 branchLabel.pack(side=tk.LEFT, anchor=tk.NW)
-branchframe.pack(side=tk.LEFT, anchor=tk.NE)
+branchframe.pack(side=tk.RIGHT, anchor=tk.NE)
 branchdropdown.pack()
 branchButton.pack(side=tk.LEFT)
 
 locationLabel.pack(side=tk.LEFT, anchor=tk.NW)
-locationframe.pack(side=tk.LEFT, anchor=tk.NW)
+locationframe.pack(side=tk.RIGHT, anchor=tk.NW)
 locationdropdown.pack()
 locationButton.pack(side=tk.LEFT)
 
 collegeLabel.pack(side=tk.LEFT, anchor=tk.NW)
-collegeframe.pack(side=tk.LEFT, anchor=tk.NE)
+collegeframe.pack(side=tk.RIGHT, anchor=tk.NE)
 collegedropdown.pack()
 collegeButton.pack(side=tk.LEFT)
 

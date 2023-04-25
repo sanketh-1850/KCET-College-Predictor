@@ -17,7 +17,6 @@ def quota_lst(diction):
         lst.append(i)
     for i in range(4):
         lst.pop(0)
-    lst.insert(0,"--Select-Quota--")
     return lst
 
 
