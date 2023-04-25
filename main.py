@@ -242,19 +242,10 @@ dataExtract(diction)
 root=tk.Tk()
 root.title("College Predictor")
 root.state("zoomed")
-root.minsize(700, 550)
+root.minsize(700, 650)
 bgimg = ImageTk.PhotoImage(Image.open("exam.jpg"))
 panel = tk.Label(root, image = bgimg)
 panel.place(x=0, y=0)
-
-
-
-# Define the style for combobox widget
-style= ttk.Style()
-style.theme_use('clam')
-style.configure("TCombobox", fieldbackground= "#F4EEE0", background= "#6D5D6E")
-style.master.option_add( '*TCombobox*Listbox.selectBackground','#6D5D6E')
-style.master.option_add( '*TCombobox*Listbox.background', '#F4EEE0')
 
 
 
@@ -288,6 +279,9 @@ college.pack(fill=tk.BOTH, expand= True, pady=20, padx=20)
 collegeframe=tk.Frame(college,relief="sunken", bg="#393646")
 collegedropdown=tk.Frame(collegeframe,relief="sunken", bg="#393646")
 collegelistbox=tk.Frame(collegeframe,relief="sunken", bg="#393646")
+
+submit=tk.Frame(form, relief="sunken", bg="#393646")
+submit.pack(fill=tk.BOTH, expand= True, pady=20, padx=20)
 
 
 
@@ -370,6 +364,8 @@ collegeButton=tk.Button(collegedropdown, width=15, height=20, font=("Times New R
 collegeEntry.bind("<KeyRelease>", checkcollege)
 updatecollege(collegeLst)
 
+submitBtn=tk.Button(submit, text="Submit" , background="#F4EEE0", foreground="#4F4557", activebackground="#4F4557", activeforeground="#F4EEE0", font="Ubuntu 12 bold", justify="center", command=None)
+
 
 
 
@@ -398,6 +394,7 @@ collegeframe.pack(side=tk.RIGHT, anchor=tk.NE)
 collegedropdown.pack()
 collegeButton.pack(side=tk.LEFT)
 
+submitBtn.pack()
 
 
 
