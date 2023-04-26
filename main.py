@@ -3,7 +3,16 @@ from tkinter import ttk
 from dataExt import *
 from PIL import ImageTk, Image
 from tkinter import messagebox
-from display import *
+
+def disp(Rank,Category,Branch,Location,College):
+    global diction
+    for i in range(len(diction["College"])):
+        lst=[]
+        if (diction["College"][i] in College) and (diction["Branch"][i] in Branch) and (diction["Location"][i] in Location) and (diction[Category][i] >= int(Rank)):
+            print(diction["College"][i], diction["Branch"][i], diction["Location"][i], diction[Category][i])
+    
+
+
 
 def FORM():
     #function to validate the information entered
@@ -23,9 +32,9 @@ def FORM():
         for i in collegeChoice.curselection():
             College.append(collegeChoice.get(i))
         if Location == []:
-            Location = location_lst
+            Location = locationLst
         if College == []:
-            College = college_lst
+            College = collegeLst
         if Rank.isnumeric() == False:
             error+="•Rank Invalid.\n"
         if Category == []:
@@ -36,7 +45,8 @@ def FORM():
         if error!="":
             messagebox.showerror("Invalid Input", error)
         else:
-            disp()
+            root.destroy()
+            disp(Rank,Category[0],Branch,Location,College)
 
 
 
@@ -269,6 +279,7 @@ def FORM():
 
 
     #Extracting data from the csv file
+    global diction
     diction={}
     dataExtract(diction)
 
@@ -341,6 +352,7 @@ def FORM():
     scrollbar.config(command=quotaChoice.yview)
     scrollbar.pack(side=tk.RIGHT, fill=tk.Y)
     quotaChoice.pack()
+    global quotaLst
     quotaLst=quota_lst(diction)
     quotaButton=tk.Button(quotadropdown, width=15, height=20, font=("Times New Roman", 10), image=btnimg, justify="center", bg="#6D5D6E", command=show_hidequota)
 
@@ -357,6 +369,7 @@ def FORM():
     scrollbar.config(command=branchChoice.yview)
     scrollbar.pack(side=tk.RIGHT, fill=tk.Y)
     branchChoice.pack()
+    global branchLst
     branchLst=branch_lst(diction)
     branchButton=tk.Button(branchdropdown, width=15, height=20, font=("Times New Roman", 10), image=btnimg, justify="center", bg="#6D5D6E", command=show_hidebranch)
 
@@ -373,6 +386,7 @@ def FORM():
     scrollbar.config(command=locationChoice.yview)
     scrollbar.pack(side=tk.RIGHT, fill=tk.Y)
     locationChoice.pack()
+    global locationLst
     locationLst=location_lst(diction)
     locationButton=tk.Button(locationdropdown, width=15, height=20, font=("Times New Roman", 10), image=btnimg, justify="center", bg="#6D5D6E", command=show_hidelocation)
 
@@ -394,6 +408,7 @@ def FORM():
     scrollbary.pack(side=tk.RIGHT, fill=tk.Y)
     scrollbarx.pack(side=tk.BOTTOM, fill=tk.X)
     collegeChoice.pack()
+    global collegeLst
     collegeLst=college_lst(diction)
     collegeButton=tk.Button(collegedropdown, width=15, height=20, font=("Times New Roman", 10), image=btnimg, justify="center", bg="#6D5D6E", command=show_hidecollege)
 
