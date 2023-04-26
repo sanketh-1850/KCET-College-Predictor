@@ -6,11 +6,53 @@ from tkinter import messagebox
 
 def disp(Rank,Category,Branch,Location,College):
     global diction
-    for i in range(len(diction["College"])):
-        lst=[]
-        if (diction["College"][i] in College) and (diction["Branch"][i] in Branch) and (diction["Location"][i] in Location) and (diction[Category][i] >= int(Rank)):
-            print(diction["College"][i], diction["Branch"][i], diction["Location"][i], diction[Category][i])
     
+    #creating display window
+    dispWin=tk.Tk()
+    dispWin.title("College Predictor")
+    dispWin.state("zoomed")
+    dispWin.minsize(700, 650)
+    bgimg = ImageTk.PhotoImage(Image.open("exam.jpg"))
+    panel = tk.Label(dispWin, image = bgimg)
+    panel.place(x=0, y=0)
+
+
+    lst=diction_location(diction["Location"])
+    dataMain=[]
+    #extracting data to dataMain
+    for i in range(len(diction["College"])):
+        if (diction["College"][i] in College) and (diction["Branch"][i] in Branch) and (lst[i] in Location) and (diction[Category][i] >= int(Rank)):
+            data=(str(int(diction[Category][i])), diction["Branch"][i], diction["College"][i], diction["Location"][i], diction["CETCode"][i])
+            dataMain.append(data)
+    
+
+    #creating display frame
+    easyFrame=tk.Frame(dispWin, relief="sunken", bg="#393646")
+    Easy=ttk.Treeview(easyFrame, selectmode="none", height=10)
+    Easy['columns'] = ("Rank", "Branch", "College", "Location", "CET Code")
+    Easy.column("#0", width=0, stretch=tk.NO)
+    Easy.column("Rank", anchor=tk.CENTER, width=120)
+    Easy.column("Branch", anchor=tk.CENTER, width=120)
+    Easy.column("College", anchor=tk.CENTER, width=120)
+    Easy.column("Location", anchor=tk.CENTER, width=120)
+    Easy.column("CET Code", anchor=tk.CENTER, width=120)
+
+    Easy.heading("#0", text="", anchor=tk.W)
+    Easy.heading("Rank", text="Rank", anchor=tk.CENTER)
+    Easy.heading("Branch", text="Branch", anchor=tk.CENTER)
+    Easy.heading("College", text="College", anchor=tk.CENTER)
+    Easy.heading("Location", text="Location", anchor=tk.CENTER)
+    Easy.heading("CET Code", text="CET Code", anchor=tk.CENTER)
+
+    for i in range(len(dataMain)):
+        Easy.insert(parent='', index='end', iid=i, text="", values=dataMain[i])
+    
+    easyFrame.pack(fill=tk.BOTH, expand=True, padx=20, pady=80)
+    Easy.pack(side=tk.TOP, pady=20, padx=20, fill=tk.X, expand=False)
+
+
+    dispWin.mainloop()
+
 
 
 

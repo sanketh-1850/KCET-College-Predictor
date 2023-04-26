@@ -49,3 +49,10 @@ def college_lst(diction):
     lst=list(lst)
     lst.sort()
     return lst
+
+def diction_location(lst):
+    lst2=[]
+    for i in lst:
+        temp=i.split(",")
+        lst2.append(temp[len(temp)-1].lstrip())
+    return lst2
