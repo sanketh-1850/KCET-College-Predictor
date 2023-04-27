@@ -3,6 +3,9 @@ from tkinter import ttk
 from dataExt import *
 from PIL import ImageTk, Image
 from tkinter import messagebox
+from math import *
+
+
 
 def disp(Rank,Category,Branch,Location,College):
     global diction
@@ -21,16 +24,42 @@ def disp(Rank,Category,Branch,Location,College):
     dataMain=[]
     #extracting data to dataMain
     for i in range(len(diction["College"])):
-        if (diction["College"][i] in College) and (diction["Branch"][i] in Branch) and (lst[i] in Location) and (diction[Category][i] >= int(Rank)):
+        if (diction["College"][i] in College) and (diction["Branch"][i] in Branch) and (lst[i] in Location) and (floor(diction[Category][i] * 0.8) >= int(Rank)):
             data=(str(int(diction[Category][i])), diction["Branch"][i], diction["College"][i], diction["Location"][i], diction["CETCode"][i])
             dataMain.append(data)
     
 
+    # add style to treeview
+    style=ttk.Style()
+    
+    # pick a style
+    style.theme_use("default")
+
+    # configure treeview
+    style.configure("Treeview",
+                    font=("Ubuntu", 10),
+                    background="#6D5D6E",
+                    foreground="#F4EEE0",
+                    borderwidth=4,
+                    fieldbackground="#F4EEE0",
+                    rowheight=25)
+
+    style.configure("Treeview.Heading", background="#4F4557", foreground="#F4EEE0", font=('Roboto Slab', 15,'bold'))
+
+    style.map("Treeview.Heading",
+              background=[("active", "#4F4557")])
+
+
     #creating display frame
-    easyFrame=tk.Frame(dispWin, relief="sunken", bg="#393646")
-    Easy=ttk.Treeview(easyFrame, selectmode="none", height=10)
+    mainFrame=tk.Frame(dispWin, relief="sunken", bg="#393646")
+    EasyFrame=tk.Frame(mainFrame)
+    EasyScrollbar=tk.Scrollbar(EasyFrame)
+    Easy=ttk.Treeview(EasyFrame, selectmode="none", height=8, yscrollcommand=EasyScrollbar.set)
+    EasyScrollbar.config(command=Easy.yview)
+    Easy.pack(side=tk.LEFT, fill=tk.X, expand=True)
+    EasyScrollbar.pack(side=tk.RIGHT, fill=tk.Y)
     Easy['columns'] = ("Rank", "Branch", "College", "Location", "CET Code")
-    Easy.column("#0", width=0, stretch=tk.NO)
+    Easy.column("#0", width=45, anchor=tk.W, stretch=tk.NO)
     Easy.column("Rank", anchor=tk.CENTER, width=120)
     Easy.column("Branch", anchor=tk.CENTER, width=120)
     Easy.column("College", anchor=tk.CENTER, width=120)
@@ -44,11 +73,25 @@ def disp(Rank,Category,Branch,Location,College):
     Easy.heading("Location", text="Location", anchor=tk.CENTER)
     Easy.heading("CET Code", text="CET Code", anchor=tk.CENTER)
 
+    Easy.tag_configure("evenrow", background="#F4EEE0", foreground="#393646")
+    Easy.tag_configure("oddrow", background="#6D5D6E", foreground="#F4EEE0")
+
     for i in range(len(dataMain)):
-        Easy.insert(parent='', index='end', iid=i, text="", values=dataMain[i])
+        if i%2 == 0:
+            Easy.insert(parent='', index='end', iid=i, text=i+1, values=dataMain[i], tags="evenrow")
+        else:
+            Easy.insert(parent='', index='end', iid=i, text=i+1, values=dataMain[i], tags="oddrow")
+        
+
+    #creating the labels
+    EasyLabel=tk.Label(mainFrame, text="Colleges with high chances of getting into:", font=('Roboto Slab', 25,'bold underline'), background="#393646", foreground="#F4EEE0")
+
+
     
-    easyFrame.pack(fill=tk.BOTH, expand=True, padx=20, pady=80)
-    Easy.pack(side=tk.TOP, pady=20, padx=20, fill=tk.X, expand=False)
+    mainFrame.pack(fill=tk.BOTH, expand=True, padx=20, pady=20)
+    EasyLabel.pack(pady=20, padx=20)
+    EasyFrame.pack(side=tk.TOP, pady=20, padx=50, fill=tk.X, expand=False)
+    
 
 
     dispWin.mainloop()
@@ -59,36 +102,78 @@ def disp(Rank,Category,Branch,Location,College):
 def FORM():
     #function to validate the information entered
     def validate():
+        nonlocal selectedQuota
+        nonlocal dataQuota
+        nonlocal selectedBranch
+        nonlocal dataBranch
+        nonlocal selectedlocation
+        nonlocal datalocation
+        nonlocal selectedcollege
+        nonlocal datacollege
+        
         error = ""
+        
+        #for rank
         Rank=rankEntry.get()
-        Category = []
+
+        #for category
+        temp=[]
         for i in quotaChoice.curselection():
-            Category.append(quotaChoice.get(i))
-        Branch = []
+            temp.append(quotaChoice.get(i))
+            if quotaChoice.get(i) not in selectedQuota:
+                if selectedQuota != []:
+                    selectedQuota.pop()
+                selectedQuota.append(quotaChoice.get(i))
+        
+        #for branch
+        temp=[]
         for i in branchChoice.curselection():
-            Branch.append(branchChoice.get(i))
-        Location = []
+            temp.append(branchChoice.get(i))
+            if branchChoice.get(i) not in selectedBranch:
+                selectedBranch.append(branchChoice.get(i))
+        for i in dataBranch: 
+            if (i in selectedBranch) and (i not in temp):
+                selectedBranch.remove(i)
+        
+        #for location
+        temp=[]
         for i in locationChoice.curselection():
-            Location.append(locationChoice.get(i))
-        College = []
+            temp.append(locationChoice.get(i))
+            if locationChoice.get(i) not in selectedlocation:
+                selectedlocation.append(locationChoice.get(i))
+
+        for i in datalocation: 
+            if (i in selectedlocation) and (i not in temp):
+                selectedlocation.remove(i)
+        
+        #for college
+        temp=[]
         for i in collegeChoice.curselection():
-            College.append(collegeChoice.get(i))
-        if Location == []:
-            Location = locationLst
-        if College == []:
-            College = collegeLst
+            temp.append(collegeChoice.get(i))
+            if collegeChoice.get(i) not in selectedcollege:
+                selectedcollege.append(collegeChoice.get(i))
+
+        for i in datacollege: 
+            if (i in selectedcollege) and (i not in temp):
+                selectedcollege.remove(i)
+        
+        #checking for errors
+        if selectedlocation == []:
+            selectedlocation = locationLst
+        if selectedcollege == []:
+            selectedcollege = collegeLst
         if Rank.isnumeric() == False:
             error+="•Rank Invalid.\n"
-        if Category == []:
+        if selectedQuota == []:
             error+="•Category not chosen.\n"
-        if Branch == []:
+        if selectedBranch == []:
             error+="•Branch not chosen.\n"
         
         if error!="":
             messagebox.showerror("Invalid Input", error)
         else:
             root.destroy()
-            disp(Rank,Category[0],Branch,Location,College)
+            disp(Rank,selectedQuota[0],selectedBranch,selectedlocation,selectedcollege)
 
 
 
@@ -167,7 +252,7 @@ def FORM():
         nonlocal selectedQuota
         typed = quotaEntry.get()
         
-        #updating the lisbox in each search
+        #updating the listbox in each search
         temp=[]
         for i in quotaChoice.curselection():
             temp.append(quotaChoice.get(i))
