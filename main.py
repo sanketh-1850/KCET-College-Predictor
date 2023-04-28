@@ -9,6 +9,11 @@ from math import *
 
 def disp(Rank,Category,Branch,Location,College):
     global diction
+
+    #creating function for back button
+    def back():
+        dispWin.destroy()
+        FORM()
     
     #creating display window
     dispWin=tk.Tk()
@@ -19,14 +24,15 @@ def disp(Rank,Category,Branch,Location,College):
     panel = tk.Label(dispWin, image = bgimg)
     panel.place(x=0, y=0)
 
+    # TO DISPLAY HIGHER CHANCE TABLE
 
     lst=diction_location(diction["Location"])
-    dataMain=[]
-    #extracting data to dataMain
+    dataEasy=[]
+    #extracting data to dataEasy
     for i in range(len(diction["College"])):
         if (diction["College"][i] in College) and (diction["Branch"][i] in Branch) and (lst[i] in Location) and (floor(diction[Category][i] * 0.8) >= int(Rank)):
             data=(str(int(diction[Category][i])), diction["Branch"][i], diction["College"][i], diction["Location"][i], diction["CETCode"][i])
-            dataMain.append(data)
+            dataEasy.append(data)
     
 
     # add style to treeview
@@ -54,7 +60,7 @@ def disp(Rank,Category,Branch,Location,College):
     mainFrame=tk.Frame(dispWin, relief="sunken", bg="#393646")
     EasyFrame=tk.Frame(mainFrame)
     EasyScrollbar=tk.Scrollbar(EasyFrame)
-    Easy=ttk.Treeview(EasyFrame, selectmode="none", height=8, yscrollcommand=EasyScrollbar.set)
+    Easy=ttk.Treeview(EasyFrame, selectmode="none", height=10, yscrollcommand=EasyScrollbar.set)
     EasyScrollbar.config(command=Easy.yview)
     Easy.pack(side=tk.LEFT, fill=tk.X, expand=True)
     EasyScrollbar.pack(side=tk.RIGHT, fill=tk.Y)
@@ -76,25 +82,80 @@ def disp(Rank,Category,Branch,Location,College):
     Easy.tag_configure("evenrow", background="#F4EEE0", foreground="#393646")
     Easy.tag_configure("oddrow", background="#6D5D6E", foreground="#F4EEE0")
 
-    for i in range(len(dataMain)):
+    for i in range(len(dataEasy)):
         if i%2 == 0:
-            Easy.insert(parent='', index='end', iid=i, text=i+1, values=dataMain[i], tags="evenrow")
+            Easy.insert(parent='', index='end', iid=i, text=i+1, values=dataEasy[i], tags="evenrow")
         else:
-            Easy.insert(parent='', index='end', iid=i, text=i+1, values=dataMain[i], tags="oddrow")
+            Easy.insert(parent='', index='end', iid=i, text=i+1, values=dataEasy[i], tags="oddrow")
+        
+
+
+    # TO DISPLAY HIGHER CHANCE TABLE
+
+    dataHard=[]
+    #extracting data to dataHard
+    for i in range(len(diction["College"])):
+        if (diction["College"][i] in College) and (diction["Branch"][i] in Branch) and (lst[i] in Location) and (floor(diction[Category][i] * 0.8) < int(Rank)) and (diction[Category][i] >= int(Rank)):
+            data=(str(int(diction[Category][i])), diction["Branch"][i], diction["College"][i], diction["Location"][i], diction["CETCode"][i])
+            dataHard.append(data)
+
+
+    #creating display frame
+    HardFrame=tk.Frame(mainFrame)
+    HardScrollbar=tk.Scrollbar(HardFrame)
+    Hard=ttk.Treeview(HardFrame, selectmode="none", height=10, yscrollcommand=HardScrollbar.set)
+    HardScrollbar.config(command=Hard.yview)
+    Hard.pack(side=tk.LEFT, fill=tk.X, expand=True)
+    HardScrollbar.pack(side=tk.RIGHT, fill=tk.Y)
+    Hard['columns'] = ("Rank", "Branch", "College", "Location", "CET Code")
+    Hard.column("#0", width=45, anchor=tk.W, stretch=tk.NO)
+    Hard.column("Rank", anchor=tk.CENTER, width=120)
+    Hard.column("Branch", anchor=tk.CENTER, width=120)
+    Hard.column("College", anchor=tk.CENTER, width=120)
+    Hard.column("Location", anchor=tk.CENTER, width=120)
+    Hard.column("CET Code", anchor=tk.CENTER, width=120)
+
+    Hard.heading("#0", text="", anchor=tk.W)
+    Hard.heading("Rank", text="Rank", anchor=tk.CENTER)
+    Hard.heading("Branch", text="Branch", anchor=tk.CENTER)
+    Hard.heading("College", text="College", anchor=tk.CENTER)
+    Hard.heading("Location", text="Location", anchor=tk.CENTER)
+    Hard.heading("CET Code", text="CET Code", anchor=tk.CENTER)
+
+    Hard.tag_configure("even", background="#F4EEE0", foreground="#393646")
+    Hard.tag_configure("odd", background="#6D5D6E", foreground="#F4EEE0")
+
+    for i in range(len(dataHard)):
+        if i%2 == 0:
+            Hard.insert(parent='', index='end', iid=i, text=i+1, values=dataHard[i], tags="even")
+        else:
+            Hard.insert(parent='', index='end', iid=i, text=i+1, values=dataHard[i], tags="odd")
         
 
     #creating the labels
+    HardLabel=tk.Label(mainFrame, text="Colleges with low chances of getting into:", font=('Roboto Slab', 25,'bold underline'), background="#393646", foreground="#F4EEE0")
     EasyLabel=tk.Label(mainFrame, text="Colleges with high chances of getting into:", font=('Roboto Slab', 25,'bold underline'), background="#393646", foreground="#F4EEE0")
 
 
-    
+    #creating back button
+    backbtnimg = ImageTk.PhotoImage(Image.open("backbtn.png"))
+    backButton=tk.Button(mainFrame, image=backbtnimg, justify="center", bg="#393646", activebackground="#393646", borderwidth=0, command=back)
+
+
+
     mainFrame.pack(fill=tk.BOTH, expand=True, padx=20, pady=20)
-    EasyLabel.pack(pady=20, padx=20)
-    EasyFrame.pack(side=tk.TOP, pady=20, padx=50, fill=tk.X, expand=False)
+    backButton.pack(side=tk.LEFT, padx=(10,0), pady=(10,0), anchor="nw")
+    EasyLabel.pack(pady=(50,50))
+    EasyFrame.pack(side=tk.TOP, padx=(0,60), fill=tk.X, expand=False)
+    HardLabel.pack(pady=(80,50))
+    HardFrame.pack(side=tk.TOP, padx=(0,60), fill=tk.X, expand=False)
     
 
-
+    
+    
     dispWin.mainloop()
+
+
 
 
 
@@ -163,11 +224,11 @@ def FORM():
         if selectedcollege == []:
             selectedcollege = collegeLst
         if Rank.isnumeric() == False:
-            error+="•Rank Invalid.\n"
+            error+="• Rank Invalid.\n"
         if selectedQuota == []:
-            error+="•Category not chosen.\n"
+            error+="• Category not chosen.\n"
         if selectedBranch == []:
-            error+="•Branch not chosen.\n"
+            error+="• Branch not chosen.\n"
         
         if error!="":
             messagebox.showerror("Invalid Input", error)
@@ -414,7 +475,7 @@ def FORM():
 
     #creating the window
     root=tk.Tk()
-    root.title("College Predictor")
+    root.title("KCET College Predictor")
     root.state("zoomed")
     root.minsize(700, 650)
     bgimg = ImageTk.PhotoImage(Image.open("exam.jpg"))
@@ -461,7 +522,7 @@ def FORM():
 
     #Initialising to string variable
     rankVar=tk.StringVar()
-    btnimg = ImageTk.PhotoImage(Image.open("btn.png"))
+    btnimg = ImageTk.PhotoImage(Image.open("dropDownBtn.png"))
 
 
 
@@ -542,7 +603,8 @@ def FORM():
     collegeEntry.bind("<KeyRelease>", checkcollege)
     updatecollege(collegeLst)
 
-    submitBtn=tk.Button(submit, text="Submit" , background="#F4EEE0", foreground="#4F4557", activebackground="#4F4557", activeforeground="#F4EEE0", font="Ubuntu 12 bold", justify="center", command=lambda:validate())
+    submitbtnimg = ImageTk.PhotoImage(Image.open("submitbtn.png"))
+    submitBtn=tk.Button(submit, text=" Submit" , image=submitbtnimg, width=90,compound=tk.LEFT, background="#F4EEE0", foreground="#4F4557", activebackground="#4F4557", activeforeground="#F4EEE0", font="Ubuntu 12 bold", justify="center", command=lambda:validate())
 
 
 
