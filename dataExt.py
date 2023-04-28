@@ -2,7 +2,7 @@ import pandas as pd
 from tkinter import messagebox
 
 def dataExtract(lst):
-    data=pd.read_csv("data.csv")
+    data=pd.read_csv(r"Data\data.csv")
     diction=data.to_dict()
     for i in diction.keys():
         lst[i]=[]

@@ -4,6 +4,7 @@ from dataExt import *
 from PIL import ImageTk, Image
 from tkinter import messagebox
 from math import *
+import os
 
 
 
@@ -20,7 +21,7 @@ def disp(Rank,Category,Branch,Location,College):
     dispWin.title("College Predictor")
     dispWin.state("zoomed")
     dispWin.minsize(700, 650)
-    bgimg = ImageTk.PhotoImage(Image.open("exam.jpg"))
+    bgimg = ImageTk.PhotoImage(Image.open(r"Images\exam.jpg"))
     panel = tk.Label(dispWin, image = bgimg)
     panel.place(x=0, y=0)
 
@@ -138,7 +139,7 @@ def disp(Rank,Category,Branch,Location,College):
 
 
     #creating back button
-    backbtnimg = ImageTk.PhotoImage(Image.open("backbtn.png"))
+    backbtnimg = ImageTk.PhotoImage(Image.open(r"Images\backbtn.png"))
     backButton=tk.Button(mainFrame, image=backbtnimg, justify="center", bg="#393646", activebackground="#393646", borderwidth=0, command=back)
 
 
@@ -478,7 +479,7 @@ def FORM():
     root.title("KCET College Predictor")
     root.state("zoomed")
     root.minsize(700, 650)
-    bgimg = ImageTk.PhotoImage(Image.open("exam.jpg"))
+    bgimg = ImageTk.PhotoImage(Image.open(r"Images\exam.jpg"))
     panel = tk.Label(root, image = bgimg)
     panel.place(x=0, y=0)
 
@@ -522,7 +523,7 @@ def FORM():
 
     #Initialising to string variable
     rankVar=tk.StringVar()
-    btnimg = ImageTk.PhotoImage(Image.open("dropDownBtn.png"))
+    btnimg = ImageTk.PhotoImage(Image.open(r"Images\dropDownBtn.png"))
 
 
 
@@ -603,7 +604,7 @@ def FORM():
     collegeEntry.bind("<KeyRelease>", checkcollege)
     updatecollege(collegeLst)
 
-    submitbtnimg = ImageTk.PhotoImage(Image.open("submitbtn.png"))
+    submitbtnimg = ImageTk.PhotoImage(Image.open(r"Images\submitbtn.png"))
     submitBtn=tk.Button(submit, text=" Submit" , image=submitbtnimg, width=90,compound=tk.LEFT, background="#F4EEE0", foreground="#4F4557", activebackground="#4F4557", activeforeground="#F4EEE0", font="Ubuntu 12 bold", justify="center", command=lambda:validate())
 
 
