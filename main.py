@@ -19,6 +19,7 @@ def disp(Rank,Category,Branch,Location,College):
     #creating display window
     dispWin=tk.Tk()
     dispWin.title("College Predictor")
+    dispWin.iconbitmap(r"Images\appIcon.ico")
     dispWin.state("zoomed")
     dispWin.minsize(700, 650)
     bgimg = ImageTk.PhotoImage(Image.open(r"Images\exam.jpg"))
@@ -477,6 +478,7 @@ def FORM():
     #creating the window
     root=tk.Tk()
     root.title("KCET College Predictor")
+    root.iconbitmap(r"Images\appIcon.ico")
     root.state("zoomed")
     root.minsize(700, 650)
     bgimg = ImageTk.PhotoImage(Image.open(r"Images\exam.jpg"))
