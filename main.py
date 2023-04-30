@@ -549,7 +549,7 @@ def FORM():
     quotaChoice.pack()
     global quotaLst
     quotaLst=quota_lst(diction)
-    quotaButton=tk.Button(quotadropdown, width=15, height=20, font=("Times New Roman", 10), image=btnimg, justify="center", bg="#6D5D6E", command=show_hidequota)
+    quotaButton=tk.Button(quotadropdown, width=15, height=20, font=("Times New Roman", 10), image=btnimg, justify="center", bg="#6D5D6E", activebackground="#F4EEE0", command=show_hidequota)
 
     quotaChoice.bind("<<ListboxSelect>>", filloutQuota)
     quotaEntry.bind("<KeyRelease>", checkQuota)
@@ -566,7 +566,7 @@ def FORM():
     branchChoice.pack()
     global branchLst
     branchLst=branch_lst(diction)
-    branchButton=tk.Button(branchdropdown, width=15, height=20, font=("Times New Roman", 10), image=btnimg, justify="center", bg="#6D5D6E", command=show_hidebranch)
+    branchButton=tk.Button(branchdropdown, width=15, height=20, font=("Times New Roman", 10), image=btnimg, justify="center", bg="#6D5D6E", activebackground="#F4EEE0", command=show_hidebranch)
 
     branchEntry.bind("<KeyRelease>", checkBranch)
     updateBranch(branchLst)
@@ -583,7 +583,7 @@ def FORM():
     locationChoice.pack()
     global locationLst
     locationLst=location_lst(diction)
-    locationButton=tk.Button(locationdropdown, width=15, height=20, font=("Times New Roman", 10), image=btnimg, justify="center", bg="#6D5D6E", command=show_hidelocation)
+    locationButton=tk.Button(locationdropdown, width=15, height=20, font=("Times New Roman", 10), image=btnimg, justify="center", bg="#6D5D6E", activebackground="#F4EEE0", command=show_hidelocation)
 
     locationEntry.bind("<KeyRelease>", checklocation)
     updatelocation(locationLst)
@@ -605,7 +605,7 @@ def FORM():
     collegeChoice.pack()
     global collegeLst
     collegeLst=college_lst(diction)
-    collegeButton=tk.Button(collegedropdown, width=15, height=20, font=("Times New Roman", 10), image=btnimg, justify="center", bg="#6D5D6E", command=show_hidecollege)
+    collegeButton=tk.Button(collegedropdown, width=15, height=20, font=("Times New Roman", 10), image=btnimg, justify="center", bg="#6D5D6E", activebackground="#F4EEE0", command=show_hidecollege)
 
     collegeEntry.bind("<KeyRelease>", checkcollege)
     updatecollege(collegeLst)
