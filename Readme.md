@@ -35,6 +35,6 @@ The KCET College Predictor requires the following dependencies:
 - pandas
 - tkinter
 
-These dependencies will be automatically installed when you run `pip install Pillow pandas`.
+These dependencies will be automatically installed when you run `pip3 install Pillow pandas`.
 
 Note: If you are using Python on macOS, you may need to install the Tcl/Tk framework separately. Refer to the following link for more information: https://www.python.org/download/mac/tcltk/
