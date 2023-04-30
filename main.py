@@ -68,14 +68,14 @@ def disp(Rank,Category,Branch,Location,College):
     EasyScrollbar.pack(side=tk.RIGHT, fill=tk.Y)
     Easy['columns'] = ("Rank", "Branch", "College", "Location", "CET Code")
     Easy.column("#0", width=45, anchor=tk.W, stretch=tk.NO)
-    Easy.column("Rank", anchor=tk.CENTER, width=120)
+    Easy.column("Cutoff", anchor=tk.CENTER, width=120)
     Easy.column("Branch", anchor=tk.CENTER, width=120)
     Easy.column("College", anchor=tk.CENTER, width=120)
     Easy.column("Location", anchor=tk.CENTER, width=120)
     Easy.column("CET Code", anchor=tk.CENTER, width=120)
 
     Easy.heading("#0", text="", anchor=tk.W)
-    Easy.heading("Rank", text="Rank", anchor=tk.CENTER)
+    Easy.heading("Cutoff", text="Rank", anchor=tk.CENTER)
     Easy.heading("Branch", text="Branch", anchor=tk.CENTER)
     Easy.heading("College", text="College", anchor=tk.CENTER)
     Easy.heading("Location", text="Location", anchor=tk.CENTER)
@@ -647,4 +647,5 @@ def FORM():
 
     root.mainloop()
 
-FORM()
+if __name__ == "__main__":
+    FORM()
