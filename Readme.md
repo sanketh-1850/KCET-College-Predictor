@@ -1,4 +1,4 @@
-![Logo][Images/logo.png]
+![Logo](Images/logo.png)
 
 # About
 
@@ -25,7 +25,7 @@ To use the KCET College Predictor, follow these steps:
 
 # Screenshot
 
-![Screenshot][Images/Screenshot.png]
+![Screenshot](Images/Screenshot.png)
 
 # Dependencies
 
