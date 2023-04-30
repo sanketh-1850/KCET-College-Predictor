@@ -4,7 +4,6 @@ from dataExt import *
 from PIL import ImageTk, Image
 from tkinter import messagebox
 from math import *
-import os
 
 
 
