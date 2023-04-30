@@ -484,12 +484,16 @@ def FORM():
     bgimg = ImageTk.PhotoImage(Image.open(r"Images\exam.jpg"))
     panel = tk.Label(root, image = bgimg)
     panel.place(x=0, y=0)
+    logoimg = ImageTk.PhotoImage(Image.open(r"Images\logo.png"))
+    logolabel=tk.Label(root, image=logoimg, bg="#393646")
 
 
 
     #creating the form frames
+    logolabel.pack(fill=tk.X)
+
     form=tk.Frame(root, relief="sunken", bg="#393646")
-    form.pack(expand= False, padx=20, pady=80)
+    form.pack(expand= False, padx=20, pady=(60,0))
 
     rank=tk.Frame(form,relief="sunken", bg="#393646")
     rank.pack(fill=tk.BOTH, expand= True, pady=20, padx=20)
